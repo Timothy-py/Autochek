@@ -1,13 +1,7 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Dealer } from './entities/dealer.entity';
-import { User } from '../users/entities/user.entity';
 import { CreateDealerDto, UpdateDealerDto } from './dto/dealer.dto';
 
 @Injectable()

@@ -21,12 +21,14 @@ import { Roles } from './decorators/role.decorator';
 import { UserRole } from 'src/common/enum';
 import { RolesGuard } from './guards/role.guard';
 import { DealersService } from '../dealers/dealers.service';
+import { CustomersService } from '../customers/customers.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly dealerService: DealersService,
+    private readonly customerService: CustomersService,
   ) {}
 
   @ApiOperation({ summary: 'User registration' })
@@ -69,6 +71,7 @@ export class AuthController {
         return this.dealerService.findMyDealerProfile(req.user.id);
         break;
       case UserRole.CUSTOMER:
+        return this.customerService.findMyCustomerProfile(req.user.id);
         break;
       case UserRole.ADMIN:
         break;

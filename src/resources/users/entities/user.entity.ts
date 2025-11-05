@@ -1,4 +1,5 @@
 import { UserRole } from 'src/common/enum';
+import { Customer } from 'src/resources/customers/entities/customer.entity';
 import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
 import {
   Column,
@@ -26,8 +27,12 @@ export class User {
   @OneToOne(() => Dealer, (dealer) => dealer.user)
   dealer: Dealer;
 
+  @OneToOne(() => Customer, (customer) => customer.user)
+  customer: Customer;
+
   @CreateDateColumn()
   createdAt: Date;
+
   @UpdateDateColumn()
   updatedAt: Date;
 }

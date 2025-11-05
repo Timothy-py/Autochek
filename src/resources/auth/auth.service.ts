@@ -19,6 +19,7 @@ import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { HelperService } from 'src/common/helpers';
 import { UserRole } from 'src/common/enum';
 import { DealersService } from '../dealers/dealers.service';
+import { CustomersService } from '../customers/customers.service';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly dealersService: DealersService,
+    private readonly customersService: CustomersService,
     private readonly jwtService: JwtService,
     private readonly helperService: HelperService,
   ) {}
@@ -52,6 +54,7 @@ export class AuthService {
           await this.dealersService.create(otherData, user.id);
           break;
         case UserRole.CUSTOMER:
+          await this.customersService.create(otherData, user.id);
           break;
         default:
           break;
