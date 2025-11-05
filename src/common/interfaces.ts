@@ -23,3 +23,9 @@ export enum EStatusText {
   FAIL = 'Failed',
   ERROR = 'Error',
 }
+
+export interface JwtPayload {
+  sub: string; // user id
+  email: string;
+  role: string;
+}
