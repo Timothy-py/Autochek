@@ -17,12 +17,15 @@ import {
 } from 'src/common/interfaces';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { HelperService } from 'src/common/helpers';
+import { UserRole } from 'src/common/enum';
+import { DealersService } from '../dealers/dealers.service';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   constructor(
     private readonly usersService: UsersService,
+    private readonly dealersService: DealersService,
     private readonly jwtService: JwtService,
     private readonly helperService: HelperService,
   ) {}
@@ -31,7 +34,7 @@ export class AuthService {
     registerDto: RegisterDto,
   ): Promise<ISuccessResponse<object> | IErrorResponse> {
     try {
-      const { email, password, role } = registerDto;
+      const { email, password, role, ...otherData } = registerDto;
       const existing = await this.usersService.findByEmail(email);
 
       if (existing) throw new ConflictException('Email already exist');
@@ -43,6 +46,16 @@ export class AuthService {
         passwordHash: hashed,
         role: role,
       });
+
+      switch (role) {
+        case UserRole.DEALER:
+          await this.dealersService.create(otherData, user.id);
+          break;
+        case UserRole.CUSTOMER:
+          break;
+        default:
+          break;
+      }
 
       return {
         statusCode: HttpStatus.CREATED,

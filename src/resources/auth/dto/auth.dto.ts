@@ -11,6 +11,13 @@ export class RegisterDto {
   email: string;
 
   @ApiProperty({
+    description: 'Name of the user',
+    example: 'Timothy',
+  })
+  @IsString()
+  name: string;
+
+  @ApiProperty({
     description: 'Password of the user',
     example: 'password123',
   })

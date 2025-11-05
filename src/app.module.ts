@@ -6,9 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 import { UsersModule } from './resources/users/users.module';
 import { AuthModule } from './resources/auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './resources/auth/guards/jwt.guard';
 import { User } from './resources/users/entities/user.entity';
+import { Dealer } from './resources/dealers/entities/dealer.entity';
+import { DealersModule } from './resources/dealers/dealers.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { User } from './resources/users/entities/user.entity';
           database: ':memory',
           synchronize: true, // TODO: Change to false in Production
           logging: ['error', 'warn'],
-          entities: [User],
+          entities: [User, Dealer],
           // migrations: [],
         };
       },
@@ -34,14 +34,9 @@ import { User } from './resources/users/entities/user.entity';
     }),
     UsersModule,
     AuthModule,
+    DealersModule,
   ],
   controllers: [],
-  providers: [
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtAuthGuard,
-    // },
-    Logger,
-  ],
+  providers: [Logger],
 })
 export class AppModule {}

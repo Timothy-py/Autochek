@@ -12,10 +12,12 @@ import { UsersService } from '../users/users.service';
 import { HelperService } from 'src/common/helpers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
+import { DealersService } from '../dealers/dealers.service';
+import { Dealer } from '../dealers/entities/dealer.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Dealer]),
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
@@ -32,6 +34,7 @@ import { User } from '../users/entities/user.entity';
     JwtStrategy,
     UsersService,
     HelperService,
+    DealersService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

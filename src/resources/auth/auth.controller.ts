@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
-import { JwtAuthGuard } from './guards/jwt.guard';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -21,10 +20,14 @@ import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/role.decorator';
 import { UserRole } from 'src/common/enum';
 import { RolesGuard } from './guards/role.guard';
+import { DealersService } from '../dealers/dealers.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly dealerService: DealersService,
+  ) {}
 
   @ApiOperation({ summary: 'User registration' })
   @ApiOkResponse({
@@ -61,7 +64,17 @@ export class AuthController {
   @ApiBearerAuth()
   @Get('me')
   me(@Request() req) {
-    return req.user;
+    switch (req.user.role) {
+      case UserRole.DEALER:
+        return this.dealerService.findMyDealerProfile(req.user.id);
+        break;
+      case UserRole.CUSTOMER:
+        break;
+      case UserRole.ADMIN:
+        break;
+      default:
+        break;
+    }
   }
 
   @ApiBearerAuth()

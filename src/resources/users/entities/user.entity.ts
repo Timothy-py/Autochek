@@ -1,8 +1,10 @@
 import { UserRole } from 'src/common/enum';
+import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -20,6 +22,9 @@ export class User {
 
   @Column({ type: 'text', enum: UserRole })
   role: string;
+
+  @OneToOne(() => Dealer, (dealer) => dealer.user)
+  dealer: Dealer;
 
   @CreateDateColumn()
   createdAt: Date;
