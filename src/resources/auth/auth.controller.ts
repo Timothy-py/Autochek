@@ -79,12 +79,4 @@ export class AuthController {
         break;
     }
   }
-
-  @ApiBearerAuth()
-  @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN)
-  @Get('admin-check')
-  adminOnly() {
-    return { message: 'Hello Admin 👋' };
-  }
 }

@@ -11,6 +11,8 @@ import { Dealer } from './resources/dealers/entities/dealer.entity';
 import { DealersModule } from './resources/dealers/dealers.module';
 import { Customer } from './resources/customers/entities/customer.entity';
 import { CustomersModule } from './resources/customers/customers.module';
+import { VehiclesModule } from './resources/vehicles/vehicles.module';
+import { Vehicle } from './resources/vehicles/entities/vehicle.entity';
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { CustomersModule } from './resources/customers/customers.module';
           database: ':memory',
           synchronize: true, // TODO: Change to false in Production
           logging: ['error', 'warn'],
-          entities: [User, Dealer, Customer],
+          entities: [User, Dealer, Customer, Vehicle],
           // migrations: [],
         };
       },
@@ -38,6 +40,7 @@ import { CustomersModule } from './resources/customers/customers.module';
     AuthModule,
     DealersModule,
     CustomersModule,
+    VehiclesModule,
   ],
   controllers: [],
   providers: [Logger],

@@ -1,3 +1,5 @@
+import { User } from 'src/resources/users/entities/user.entity';
+import { Vehicle } from 'src/resources/vehicles/entities/vehicle.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,8 +8,8 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
 
 @Entity('dealers')
 export class Dealer {
@@ -32,6 +34,9 @@ export class Dealer {
 
   @Column({ type: 'varchar', nullable: true })
   address: string;
+
+  @OneToMany(() => Vehicle, (vehicle) => vehicle.dealer, { cascade: true })
+  vehicles: Vehicle[];
 
   @CreateDateColumn()
   createdAt: Date;
