@@ -28,7 +28,7 @@ export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Create vehicle' })
+  @ApiOperation({ summary: 'Create vehicle -> DEALER' })
   @ApiCreatedResponse({ description: 'Vehicle created successfully' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @UseGuards(RolesGuard)
@@ -80,7 +80,7 @@ export class VehiclesController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update vehicle' })
+  @ApiOperation({ summary: 'Update vehicle -> DEALER' })
   @ApiOkResponse({ description: 'Vehicle updated successfully' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiParam({

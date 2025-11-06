@@ -26,7 +26,7 @@ export class ValuationsController {
   constructor(private readonly valuationsService: ValuationsService) {}
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Request Valuation' })
+  @ApiOperation({ summary: 'Request Valuation -> DEALER|ADMIN' })
   @ApiOkResponse({
     description: 'Valuation requested successfully',
   })
@@ -41,7 +41,7 @@ export class ValuationsController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get all valuations' })
+  @ApiOperation({ summary: 'Get all valuations -> DEALER|ADMIN' })
   @ApiOkResponse({
     description: 'Valuations fetched successfully',
   })
@@ -82,7 +82,7 @@ export class ValuationsController {
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get valuation by id' })
+  @ApiOperation({ summary: 'Get valuation by id -> DEALER|ADMIN' })
   @ApiOkResponse({
     description: 'Valuation fetched successfully',
   })
