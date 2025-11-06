@@ -69,7 +69,13 @@ describe('OffersService', () => {
     loanService = module.get(LoansService);
   });
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+    // Reset mock object states
+    mockOffer.status = OfferStatus.PENDING;
+    mockLoan.status = LoanStatus.PENDING;
+    mockVehicle.available = true;
+  });
 
   describe('respondToOffer', () => {
     it('should accept an offer → approve loan → mark vehicle unavailable → expire others', async () => {
@@ -138,10 +144,7 @@ describe('OffersService', () => {
       });
 
       const dto = { offerId: 'offer-1', status: CustomerOfferStatus.REJECTED };
-      const result = (await service.respondToOffer(
-        dto,
-        'cust-1',
-      )) as ISuccessResponse<Offer>;
+      const result = (await service.respondToOffer(dto, 'cust-1')) as any;
 
       expect(result.data.status).toBe(OfferStatus.REJECTED);
       expect(mockLoan.status).toBe(LoanStatus.PENDING); // loan unchanged
