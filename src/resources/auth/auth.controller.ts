@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
 import { Roles } from './decorators/role.decorator';
-import { UserRole } from 'src/common/enum';
+import { UserRole } from '../../common/enum';
 import { RolesGuard } from './guards/role.guard';
 import { DealersService } from '../dealers/dealers.service';
 import { CustomersService } from '../customers/customers.service';

@@ -1,8 +1,8 @@
-import { LoanStatus } from 'src/common/enum';
-import { Offer } from 'src/resources/offers/entities/offer.entity';
-import { User } from 'src/resources/users/entities/user.entity';
-import { Valuation } from 'src/resources/valuations/entities/valuation.entity';
-import { Vehicle } from 'src/resources/vehicles/entities/vehicle.entity';
+import { LoanStatus } from '../../../common/enum';
+import { Offer } from '../../offers/entities/offer.entity';
+import { User } from '../../users/entities/user.entity';
+import { Valuation } from '../../valuations/entities/valuation.entity';
+import { Vehicle } from '../../vehicles/entities/vehicle.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

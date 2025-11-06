@@ -1,6 +1,6 @@
-import { UserRole } from 'src/common/enum';
-import { Customer } from 'src/resources/customers/entities/customer.entity';
-import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
+import { UserRole } from '../../../common/enum';
+import { Customer } from '../../customers/entities/customer.entity';
+import { Dealer } from '../../dealers/entities/dealer.entity';
 import {
   Column,
   CreateDateColumn,

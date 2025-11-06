@@ -11,13 +11,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { Offer } from './entities/offer.entity';
 import { CreateOfferDto, RespondOfferDto } from './dto/offer.dto';
-import { CustomerOfferStatus, LoanStatus, OfferStatus } from 'src/common/enum';
+import {
+  CustomerOfferStatus,
+  LoanStatus,
+  OfferStatus,
+} from '../../common/enum';
 import { LoansService } from '../loans/loans.service';
 import {
   EStatusText,
   IErrorResponse,
   ISuccessResponse,
-} from 'src/common/interfaces';
+} from '../../common/interfaces';
 import { Vehicle } from '../vehicles/entities/vehicle.entity';
 
 @Injectable()

@@ -1,6 +1,6 @@
-import { OfferStatus } from 'src/common/enum';
-import { Loan } from 'src/resources/loans/entities/loan.entity';
-import { User } from 'src/resources/users/entities/user.entity';
+import { OfferStatus } from '../../../common/enum';
+import { Loan } from '../../loans/entities/loan.entity';
+import { User } from '../../users/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

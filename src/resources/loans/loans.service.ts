@@ -10,14 +10,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Loan } from './entities/loan.entity';
 import { CreateLoanDto, UpdateLoanStatusDto } from './dto/loan.dto';
-import { LoanStatus } from 'src/common/enum';
+import { LoanStatus } from '../../common/enum';
 import { VehiclesService } from '../vehicles/vehicles.service';
 import { ValuationsService } from '../valuations/valuations.service';
 import {
   EStatusText,
   IErrorResponse,
   ISuccessResponse,
-} from 'src/common/interfaces';
+} from '../../common/interfaces';
 import { Valuation } from '../valuations/entities/valuation.entity';
 
 @Injectable()

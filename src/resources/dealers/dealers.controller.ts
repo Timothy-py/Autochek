@@ -10,7 +10,7 @@ import {
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/role.decorator';
-import { UserRole } from 'src/common/enum';
+import { UserRole } from '../../common/enum';
 
 @Controller('dealers')
 export class DealersController {
