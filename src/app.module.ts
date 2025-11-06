@@ -13,6 +13,8 @@ import { Customer } from './resources/customers/entities/customer.entity';
 import { CustomersModule } from './resources/customers/customers.module';
 import { VehiclesModule } from './resources/vehicles/vehicles.module';
 import { Vehicle } from './resources/vehicles/entities/vehicle.entity';
+import { Valuation } from './resources/valuations/entities/valuation.entity';
+import { ValuationsModule } from './resources/valuations/valuations.module';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { Vehicle } from './resources/vehicles/entities/vehicle.entity';
           database: ':memory',
           synchronize: true, // TODO: Change to false in Production
           logging: ['error', 'warn'],
-          entities: [User, Dealer, Customer, Vehicle],
+          entities: [User, Dealer, Customer, Vehicle, Valuation],
           // migrations: [],
         };
       },
@@ -41,6 +43,7 @@ import { Vehicle } from './resources/vehicles/entities/vehicle.entity';
     DealersModule,
     CustomersModule,
     VehiclesModule,
+    ValuationsModule,
   ],
   controllers: [],
   providers: [Logger],

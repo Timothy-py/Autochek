@@ -3,3 +3,8 @@ export enum UserRole {
   DEALER = 'DEALER',
   CUSTOMER = 'CUSTOMER',
 }
+
+export enum ValuationSource {
+  RAPIDAPI = 'RAPIDAPI',
+  SIMULATED = 'SIMULATED',
+}

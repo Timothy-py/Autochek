@@ -16,6 +16,9 @@ class EnvironmentVariables {
 
   @IsString()
   JWT_SECRET: string;
+
+  @IsString()
+  RAPIDAPI_KEY: string;
 }
 
 export function envValidation(config: Record<string, unknown>) {
