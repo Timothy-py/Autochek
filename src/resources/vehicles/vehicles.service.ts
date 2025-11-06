@@ -85,7 +85,7 @@ export class VehiclesService {
     }
   }
 
-  async findById(
+  async findOne(
     id: string,
   ): Promise<ISuccessResponse<Vehicle> | IErrorResponse> {
     try {
@@ -111,6 +111,10 @@ export class VehiclesService {
       this.logger.error('Error fetching vehicle details', error);
       throw new InternalServerErrorException('Internal server error');
     }
+  }
+
+  async findById(id: string): Promise<Vehicle | null> {
+    return this.vehicleRepository.findOne({ where: { id } });
   }
 
   async update(

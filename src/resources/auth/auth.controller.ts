@@ -74,6 +74,7 @@ export class AuthController {
         return this.customerService.findMyCustomerProfile(req.user.id);
         break;
       case UserRole.ADMIN:
+        return req.user;
         break;
       default:
         break;

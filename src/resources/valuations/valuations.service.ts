@@ -172,4 +172,8 @@ export class ValuationsService {
       throw new InternalServerErrorException('Internal server error');
     }
   }
+
+  async findById(id: string): Promise<Valuation | null> {
+    return this.valuationRepository.findOne({ where: { id } });
+  }
 }

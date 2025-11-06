@@ -76,7 +76,7 @@ export class VehiclesController {
   @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.vehiclesService.findById(id);
+    return this.vehiclesService.findOne(id);
   }
 
   @ApiBearerAuth()

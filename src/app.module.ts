@@ -15,6 +15,9 @@ import { VehiclesModule } from './resources/vehicles/vehicles.module';
 import { Vehicle } from './resources/vehicles/entities/vehicle.entity';
 import { Valuation } from './resources/valuations/entities/valuation.entity';
 import { ValuationsModule } from './resources/valuations/valuations.module';
+import { LoansModule } from './resources/loans/loans.module';
+import { Loan } from './resources/loans/entities/loan.entity';
+import { GlobalHttpModule } from './common/global-http.module';
 
 @Module({
   imports: [
@@ -32,7 +35,7 @@ import { ValuationsModule } from './resources/valuations/valuations.module';
           database: ':memory',
           synchronize: true, // TODO: Change to false in Production
           logging: ['error', 'warn'],
-          entities: [User, Dealer, Customer, Vehicle, Valuation],
+          entities: [User, Dealer, Customer, Vehicle, Valuation, Loan],
           // migrations: [],
         };
       },
@@ -44,6 +47,8 @@ import { ValuationsModule } from './resources/valuations/valuations.module';
     CustomersModule,
     VehiclesModule,
     ValuationsModule,
+    LoansModule,
+    GlobalHttpModule,
   ],
   controllers: [],
   providers: [Logger],
