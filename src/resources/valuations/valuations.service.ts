@@ -33,6 +33,19 @@ export class ValuationsService {
     private readonly httpService: HttpService,
   ) {}
 
+  /**
+   * Requests a valuation for a vehicle by a dealer or admin.
+   *
+   * - Checks vehicle existence and dealer ownership.
+   * - Attempts to fetch valuation data from an external API using the vehicle VIN.
+   * - Falls back to a simulated valuation model if the API fails.
+   * - Saves the valuation result to the database.
+   * - Returns a success response with the valuation data.
+   *
+   * @param {CreateValuationRequestDto} dto - The valuation request data (vehicleId).
+   * @param {string} userId - The ID of the user requesting the valuation.
+   * @returns {Promise<ISuccessResponse<Valuation>>} The result of the valuation request.
+   */
   async requestValuation(
     dto: CreateValuationRequestDto,
     userId: string,
@@ -98,6 +111,16 @@ export class ValuationsService {
     };
   }
 
+  /**
+   * Simulates a vehicle valuation using a simple depreciation and mileage model.
+   *
+   * - Applies a fixed annual depreciation rate to a base price.
+   * - Deducts a penalty based on vehicle mileage.
+   * - Ensures the valuation does not fall below a minimum threshold.
+   *
+   * @param {Vehicle} vehicle - The vehicle to be valued.
+   * @returns {number} The simulated estimated value of the vehicle.
+   */
   private mockValuationModel(vehicle: Vehicle): number {
     const depreciationRate = 0.15; // 15% per year depreciation
     const basePrice = 30000;

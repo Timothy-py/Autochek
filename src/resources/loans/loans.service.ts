@@ -29,6 +29,19 @@ export class LoansService {
     private readonly valuationService: ValuationsService,
   ) {}
 
+  /**
+   * Applies for a loan for a given vehicle and user.
+   *
+   * - Fetches the vehicle by ID.
+   * - Uses the provided valuation ID or the latest valuation for the vehicle.
+   * - Calculates loan eligibility score based on valuation, vehicle year, and requested amount.
+   * - Creates and saves a new loan record.
+   * - Returns a success response with the loan data, or throws appropriate errors if validation fails.
+   *
+   * @param {CreateLoanDto} dto - The loan application data (vehicleId, amountRequested, tenureMonths, optional valuationId).
+   * @param {string} userId - The ID of the user applying for the loan.
+   * @returns {Promise<ISuccessResponse<Loan> | IErrorResponse>} The result of the loan application.
+   */
   async applyForLoan(
     dto: CreateLoanDto,
     userId: string,
@@ -158,6 +171,20 @@ export class LoansService {
     }
   }
 
+  /**
+   * Calculates the loan eligibility score for a customer based on valuation, vehicle age, requested amount, and simulated credit score.
+   *
+   * - Loan-to-value ratio is penalized for higher requested amounts relative to valuation.
+   * - Vehicle age reduces the score for older vehicles.
+   * - Simulated credit score adds a user-specific factor.
+   * - Final score is a weighted sum of LTV, age, and credit score.
+   *
+   * @param {string} userId - The ID of the customer applying for the loan.
+   * @param {number} valuationEstimatedValue - The estimated value of the vehicle from valuation.
+   * @param {number} vehicleYear - The year the vehicle was manufactured.
+   * @param {number} amountRequested - The amount of loan requested by the customer.
+   * @returns {number} The computed eligibility score (higher is better).
+   */
   private eligibiltyScoring(
     userId: string,
     valuationEstimatedValue: number,
@@ -177,8 +204,16 @@ export class LoansService {
     return weightedScore;
   }
 
+  /**
+   * Simulates a credit score for a user based on their userId.
+   *
+   * - In a real system, this would use actual credit history or repayment data.
+   * - Here, it generates a pseudo-random score between 50 and 100 using the userId as a seed.
+   *
+   * @param {string} userId - The ID of the user for whom to simulate a credit score.
+   * @returns {number} A simulated credit score (between 50 and 100).
+   */
   private simulateCreditScore(userId: string): number {
-    // In real life, we'd pull from credit history or repayment data.
     const seed = [...userId].reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return 50 + (seed % 50); // Always between 50 and 100
   }
