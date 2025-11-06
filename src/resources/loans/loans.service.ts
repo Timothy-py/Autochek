@@ -18,6 +18,7 @@ import {
   IErrorResponse,
   ISuccessResponse,
 } from 'src/common/interfaces';
+import { Valuation } from '../valuations/entities/valuation.entity';
 
 @Injectable()
 export class LoansService {
@@ -36,22 +37,32 @@ export class LoansService {
       const vehicle = await this.vehicleService.findById(dto.vehicleId);
       if (!vehicle) throw new NotFoundException('Vehicle not found');
 
-      const valuation = await this.valuationService.findById(dto.valuationId);
-      if (!valuation) throw new NotFoundException('Valuation not found');
+      let valuation: Valuation | null = null;
 
-      // Simple eligibility rule: requested amount <= 90% of estimated value
-      if (dto.amountRequested > 0.9 * Number(valuation.estimatedValue)) {
-        throw new BadRequestException(
-          'Requested amount exceeds eligibility limit',
-        );
+      if (dto.valuationId) {
+        valuation = await this.valuationService.findById(dto.valuationId);
+        if (!valuation) throw new NotFoundException('Valuation not found');
+      } else {
+        valuation = vehicle.valuations?.[vehicle.valuations.length - 1];
+        if (!valuation)
+          throw new BadRequestException('Vehicle has no valuation data');
       }
+      console.log(valuation);
+
+      const eligibilityScore = this.eligibiltyScoring(
+        userId,
+        valuation.estimatedValue,
+        vehicle.year,
+        dto.amountRequested,
+      );
 
       const loan = this.loanRepository.create({
         vehicle,
-        valuation,
+        valuation: valuation,
         customer: { id: userId },
         amountRequested: dto.amountRequested,
         tenureMonths: dto.tenureMonths,
+        eligibilityScore: eligibilityScore,
       });
 
       const result = await this.loanRepository.save(loan);
@@ -125,7 +136,7 @@ export class LoansService {
   ): Promise<ISuccessResponse<Loan[]> | IErrorResponse> {
     try {
       const loans = await this.loanRepository.find({
-        relations: ['customer', 'vehicle', 'valuation'],
+        // relations: ['customer', 'vehicle', 'valuation'],
         take: pageSize,
         skip: page,
       });
@@ -145,5 +156,30 @@ export class LoansService {
       this.logger.error('Error fetching loans for customer', error);
       throw new InternalServerErrorException('Internal server error');
     }
+  }
+
+  private eligibiltyScoring(
+    userId: string,
+    valuationEstimatedValue: number,
+    vehicleYear: number,
+    amountRequested: number,
+  ): number {
+    // --- Compute Eligibility ---
+    const valuation = valuationEstimatedValue;
+    const loanToValueRatio = amountRequested / valuation;
+    const vehicleAge = new Date().getFullYear() - vehicleYear;
+    const creditScore = this.simulateCreditScore(userId);
+
+    const ltvScore = Math.max(0, 100 - loanToValueRatio * 100);
+    const ageScore = Math.max(0, 100 - vehicleAge * 5);
+    const weightedScore = 0.5 * ltvScore + 0.25 * ageScore + 0.25 * creditScore;
+
+    return weightedScore;
+  }
+
+  private simulateCreditScore(userId: string): number {
+    // In real life, we'd pull from credit history or repayment data.
+    const seed = [...userId].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return 50 + (seed % 50); // Always between 50 and 100
   }
 }

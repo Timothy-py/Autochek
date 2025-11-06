@@ -51,6 +51,9 @@ export class Loan {
   })
   status: LoanStatus;
 
+  @Column({ type: 'decimal', default: 0 })
+  eligibilityScore: number;
+
   @Column('int')
   tenureMonths: number;
 

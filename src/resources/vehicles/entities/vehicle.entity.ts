@@ -1,4 +1,5 @@
 import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
+import { Valuation } from 'src/resources/valuations/entities/valuation.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('vehicles')
@@ -47,6 +49,9 @@ export class Vehicle {
   @ManyToOne(() => Dealer, (dealer) => dealer.vehicles, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'dealerId' })
   dealer: Dealer;
+
+  @OneToMany(() => Valuation, (valuation) => valuation.vehicle)
+  valuations: Valuation[];
 
   @CreateDateColumn()
   createdAt: Date;

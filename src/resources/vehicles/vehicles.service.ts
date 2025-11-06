@@ -91,7 +91,7 @@ export class VehiclesService {
     try {
       const vehicle = await this.vehicleRepository.findOne({
         where: { id, available: true },
-        relations: ['dealer'],
+        relations: ['dealer', 'valuations'],
       });
 
       if (!vehicle) {
@@ -114,7 +114,10 @@ export class VehiclesService {
   }
 
   async findById(id: string): Promise<Vehicle | null> {
-    return this.vehicleRepository.findOne({ where: { id } });
+    return this.vehicleRepository.findOne({
+      where: { id },
+      relations: ['valuations'],
+    });
   }
 
   async update(

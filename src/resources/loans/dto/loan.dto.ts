@@ -1,5 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber, IsUUID, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsUUID,
+  Min,
+} from 'class-validator';
 import { LoanStatus } from 'src/common/enum';
 
 export class CreateLoanDto {
@@ -12,12 +19,12 @@ export class CreateLoanDto {
   @IsUUID()
   vehicleId: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: String,
     description: 'Valuation ID',
     example: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsUUID()
   valuationId: string;
 
@@ -31,12 +38,12 @@ export class CreateLoanDto {
   @Min(100)
   amountRequested: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: Number,
     description: 'Tenure in months',
     example: 12,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   @Min(1)
   tenureMonths: number;
