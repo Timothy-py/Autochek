@@ -18,6 +18,7 @@ import {
   IErrorResponse,
   ISuccessResponse,
 } from 'src/common/interfaces';
+import { Vehicle } from '../vehicles/entities/vehicle.entity';
 
 @Injectable()
 export class OffersService {
@@ -25,6 +26,7 @@ export class OffersService {
   constructor(
     @InjectRepository(Offer)
     private readonly offerRepository: Repository<Offer>,
+    private readonly vehicleRepository: Repository<Vehicle>,
     private readonly loanService: LoansService,
   ) {}
 
@@ -75,7 +77,8 @@ export class OffersService {
    * Handles a customer's response to an offer (accept or reject).
    *
    * - Finds the offer and validates ownership and status.
-   * - If accepted, marks the offer as accepted, approves the linked loan, and expires other offers for the same loan.
+   * - If accepted, marks the offer as accepted, approves the linked loan, update the associated
+   *   vehicle as unavailable and expires other offers for the same loan.
    * - If rejected, marks the offer as rejected.
    * - Saves the updated offer and returns a success response.
    * - Throws errors for invalid offer, ownership, or status.
@@ -109,6 +112,10 @@ export class OffersService {
         // Update the linked loan
         offer.loan.status = LoanStatus.APPROVED;
         await this.loanService.saveLoan(offer.loan);
+
+        // Mark vehicle as unavailable
+        offer.loan.vehicle.available = false;
+        await this.vehicleRepository.save(offer.loan.vehicle);
 
         // Expire all other offers for the same loan
         await this.offerRepository.update(
