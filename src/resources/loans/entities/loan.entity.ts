@@ -1,4 +1,5 @@
 import { LoanStatus } from 'src/common/enum';
+import { Offer } from 'src/resources/offers/entities/offer.entity';
 import { User } from 'src/resources/users/entities/user.entity';
 import { Valuation } from 'src/resources/valuations/entities/valuation.entity';
 import { Vehicle } from 'src/resources/vehicles/entities/vehicle.entity';
@@ -10,6 +11,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('loans')
@@ -41,6 +43,9 @@ export class Loan {
   @Column('decimal')
   amountRequested: number;
 
+  @Column({ type: 'decimal', default: 0 })
+  amountDeposited: number;
+
   @Column('decimal', { nullable: true })
   amountApproved: number;
 
@@ -59,6 +64,9 @@ export class Loan {
 
   @Column('decimal', { default: 15.0 })
   interestRate: number;
+
+  @OneToMany(() => Offer, (offer) => offer.loan, { cascade: true })
+  offers: Offer[];
 
   @CreateDateColumn()
   createdAt: Date;

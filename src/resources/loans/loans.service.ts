@@ -217,4 +217,15 @@ export class LoansService {
     const seed = [...userId].reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return 50 + (seed % 50); // Always between 50 and 100
   }
+
+  async findById(id: string): Promise<Loan | null> {
+    return this.loanRepository.findOne({
+      where: { id },
+      relations: ['customer'],
+    });
+  }
+
+  async saveLoan(loan: Loan): Promise<Loan> {
+    return this.loanRepository.save(loan);
+  }
 }
