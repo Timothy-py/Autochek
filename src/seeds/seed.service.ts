@@ -1,9 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRole } from 'src/common/enum';
-import { AuthService } from 'src/resources/auth/auth.service';
-import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
-import { Vehicle } from 'src/resources/vehicles/entities/vehicle.entity';
+import { UserRole } from '../common/enum';
+import { AuthService } from '../resources/auth/auth.service';
+import { Dealer } from '../resources/dealers/entities/dealer.entity';
+import { Vehicle } from '../resources/vehicles/entities/vehicle.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

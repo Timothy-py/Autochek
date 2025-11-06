@@ -9,7 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { UsersService } from '../users/users.service';
-import { HelperService } from 'src/common/helpers';
+import { HelperService } from '../../common/helpers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { DealersService } from '../dealers/dealers.service';

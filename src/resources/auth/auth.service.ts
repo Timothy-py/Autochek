@@ -14,10 +14,10 @@ import {
   IErrorResponse,
   ISuccessResponse,
   JwtPayload,
-} from 'src/common/interfaces';
+} from '../../common/interfaces';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
-import { HelperService } from 'src/common/helpers';
-import { UserRole } from 'src/common/enum';
+import { HelperService } from '../../common/helpers';
+import { UserRole } from '../../common/enum';
 import { DealersService } from '../dealers/dealers.service';
 import { CustomersService } from '../customers/customers.service';
 

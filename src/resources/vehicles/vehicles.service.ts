@@ -12,7 +12,7 @@ import {
   EStatusText,
   IErrorResponse,
   ISuccessResponse,
-} from 'src/common/interfaces';
+} from '../../common/interfaces';
 import { DealersService } from '../dealers/dealers.service';
 import { CreateVehicleDto, UpdateVehicleDto } from './dto/vehicle.dto';
 

@@ -1,5 +1,5 @@
-import { Dealer } from 'src/resources/dealers/entities/dealer.entity';
-import { Valuation } from 'src/resources/valuations/entities/valuation.entity';
+import { Dealer } from '../../dealers/entities/dealer.entity';
+import { Valuation } from '../../valuations/entities/valuation.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

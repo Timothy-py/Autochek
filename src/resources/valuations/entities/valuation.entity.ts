@@ -1,6 +1,6 @@
-import { ValuationSource } from 'src/common/enum';
-import { User } from 'src/resources/users/entities/user.entity';
-import { Vehicle } from 'src/resources/vehicles/entities/vehicle.entity';
+import { ValuationSource } from '../../../common/enum';
+import { User } from '../../users/entities/user.entity';
+import { Vehicle } from '../../vehicles/entities/vehicle.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

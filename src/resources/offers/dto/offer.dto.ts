@@ -7,7 +7,7 @@ import {
   Max,
   IsEnum,
 } from 'class-validator';
-import { CustomerOfferStatus } from 'src/common/enum';
+import { CustomerOfferStatus } from '../../../common/enum';
 
 export class CreateOfferDto {
   @ApiProperty({

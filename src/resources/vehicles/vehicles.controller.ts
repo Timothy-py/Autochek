@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/role.decorator';
-import { UserRole } from 'src/common/enum';
+import { UserRole } from '../../common/enum';
 import { CreateVehicleDto, UpdateVehicleDto } from './dto/vehicle.dto';
 import { Public } from '../auth/decorators/public.decorator';
 

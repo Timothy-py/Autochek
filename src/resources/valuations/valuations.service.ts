@@ -18,8 +18,8 @@ import {
   EStatusText,
   IErrorResponse,
   ISuccessResponse,
-} from 'src/common/interfaces';
-import { UserRole, ValuationSource } from 'src/common/enum';
+} from '../../common/interfaces';
+import { UserRole, ValuationSource } from '../../common/enum';
 
 @Injectable()
 export class ValuationsService {

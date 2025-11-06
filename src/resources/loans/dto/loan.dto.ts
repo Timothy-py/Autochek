@@ -7,7 +7,7 @@ import {
   IsUUID,
   Min,
 } from 'class-validator';
-import { LoanStatus } from 'src/common/enum';
+import { LoanStatus } from '../../../common/enum';
 
 export class CreateLoanDto {
   @ApiProperty({
