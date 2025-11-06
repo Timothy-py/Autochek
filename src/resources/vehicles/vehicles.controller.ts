@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 import {
@@ -16,6 +17,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/role.decorator';
@@ -41,14 +43,14 @@ export class VehiclesController {
   @ApiOperation({ summary: 'Get all vehicles' })
   @ApiOkResponse({ description: 'Vehicles fetched successfully' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @ApiParam({
+  @ApiQuery({
     type: Number,
     name: 'page',
     description: 'Page number',
     required: false,
     example: 0,
   })
-  @ApiParam({
+  @ApiQuery({
     type: Number,
     name: 'pageSize',
     description: 'Page size',
@@ -57,11 +59,14 @@ export class VehiclesController {
   })
   @Public()
   @Get()
-  findAll(@Param('page') page: number, @Param('pageSize') pageSize: number) {
+  async findAll(
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+  ) {
     page = page ? +page : 0;
     pageSize = pageSize ? +pageSize : 20;
     pageSize = pageSize > 35 ? 35 : pageSize;
-    return this.vehiclesService.findAll(page, pageSize);
+    return await this.vehiclesService.findAll(page, pageSize);
   }
 
   @ApiOperation({ summary: 'Get vehicle by id' })

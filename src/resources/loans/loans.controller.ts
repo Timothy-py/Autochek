@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/role.decorator';
@@ -69,14 +71,14 @@ export class LoansController {
   @ApiOperation({ summary: 'Get all loans -> ADMIN' })
   @ApiOkResponse({ description: 'Loans retrieved successfully' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @ApiParam({
+  @ApiQuery({
     type: Number,
     name: 'page',
     description: 'Page number',
     required: false,
     example: 0,
   })
-  @ApiParam({
+  @ApiQuery({
     type: Number,
     name: 'pageSize',
     description: 'Page size',
@@ -87,8 +89,8 @@ export class LoansController {
   @Roles(UserRole.ADMIN)
   @Get()
   async getAll(
-    @Param('page') page: number,
-    @Param('pageSize') pageSize: number,
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
   ) {
     page = page ? +page : 0;
     pageSize = pageSize ? +pageSize : 20;

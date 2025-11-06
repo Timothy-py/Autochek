@@ -20,6 +20,7 @@ import { Loan } from './resources/loans/entities/loan.entity';
 import { GlobalHttpModule } from './common/global-http.module';
 import { OffersModule } from './resources/offers/offers.module';
 import { Offer } from './resources/offers/entities/offer.entity';
+import { SeedService } from './seeds/seed.service';
 
 @Module({
   imports: [
@@ -52,8 +53,9 @@ import { Offer } from './resources/offers/entities/offer.entity';
     LoansModule,
     GlobalHttpModule,
     OffersModule,
+    TypeOrmModule.forFeature([User, Dealer, Customer, Vehicle]),
   ],
   controllers: [],
-  providers: [Logger],
+  providers: [Logger, SeedService],
 })
 export class AppModule {}

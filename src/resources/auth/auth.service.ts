@@ -117,4 +117,8 @@ export class AuthService {
   async validateUser(payload: JwtPayload) {
     return this.usersService.findById(payload.sub);
   }
+
+  async countUsers(): Promise<number> {
+    return await this.usersService.countUsers();
+  }
 }

@@ -24,4 +24,8 @@ export class UsersService {
   async findById(id: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id } });
   }
+
+  async countUsers(): Promise<number> {
+    return this.usersRepository.count();
+  }
 }
