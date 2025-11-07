@@ -1,98 +1,182 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Autochek Backend Assessment
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A full-featured backend system designed to streamline AutoChek’s vehicle financing workflow - from authentication, vehicle listing, valuation requests, and loan applications, to dealer offers and loan approval.
 
-## Description
+**Problem Statement:**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Develop a backend API to support Autochek's vehicle valuation and financing services. The API should handle vehicle data ingestion, valuation model integration, and loan application processing.
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## Project Description
 
-## Compile and run the project
+This application is built with [NestJS](https://nestjs.com/), leveraging TypeORM for data persistence and SQLite for simplicity. The architecture is modular, with clear separation of concerns across resources (auth, users, dealers, customers, vehicles, valuations, offers).
 
-```bash
-# development
-$ npm run start
+### Flow of Operations
 
-# watch mode
-$ npm run start:dev
+1. **Authentication**
+   - Users (dealers, customers, admins) register and log in.
+   - JWT-based authentication secures all endpoints.
+   - Role-based access control restricts sensitive operations.
 
-# production mode
-$ npm run start:prod
-```
+2. **Vehicle Ingestion**
+   - Dealers can add vehicles to the platform via the `/vehicles` endpoints.
+   - Each vehicle is associated with a dealer and includes details like make, model, year, and price.
+   - Vehicles are initially marked as available: true.
 
-## Run tests
+3. **Valuation Request**
+   - Dealers and Admins can request a valuation for any listed vehicle.
+   - The system tries to fetch estimated value via the RapidAPI VIN Lookup.
+   - If the external API fails, a local fallback valuation model is used.
+   - The valuation is stored along with metadata (source(RAPIDAPI or SIMULATED), external response, estimated value).
 
-```bash
-# unit tests
-$ npm run test
+4. **Loan Application**
+   - Customers apply for loans on valued vehicles.
+   - Eligibility scoring is performed based on customer profile and valuation.
+   - Initial loan status is set to PENDING.
+   - Loan applications are tracked and can be reviewed by admins.
 
-# e2e tests
-$ npm run test:e2e
+5. **Offer Management**
+   - Admins (the system) create offers for specific loans.
+   - Offers are linked to loans and customers.
+   - Each offer starts in PENDING state.
+6. **Offer Response → Loan Approval → Vehicle Unavailability**
+   - **_When a customer accepts an offer:_**  
+     • Offer status → ACCEPTED.  
+     • Loan status → APPROVED.  
+     • Vehicle availability → false.  
+     • All other offers for that loan → EXPIRED.
+   - **_When a customer rejects an offer:_**.  
+     • Offer status → REJECTED.
 
-# test coverage
-$ npm run test:cov
-```
+---
 
-## Deployment
+## Prerequisites & Local Setup
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Requirements
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- Node.js v20.x or higher
+- npm v9.x or higher
+- (Optional) Docker & Docker Compose for containerized setup
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+### Installation
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+1. **Clone the repository:**
 
-## Resources
+   ```bash
+   git clone git@github.com:Timothy-py/Autochek.git
+   cd Autochek
+   ```
 
-Check out a few resources that may come in handy when working with NestJS:
+2. **Install dependencies:**
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+   ```bash
+   npm install
+   ```
 
-## Support
+3. **Environment Configuration:**
+   - Copy `.env.example` to `.env` and update values as needed.
+   - Default configuration uses in-memory SQLite for development.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+4. **Run the application:**
 
-## Stay in touch
+   ```bash
+   npm run start:dev
+   ```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   - The API will be available at `http://localhost:3000/api/v1`.
+   - Swagger documentation: `http://localhost:3000/docs`
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Running with Docker Compose
+
+1. **Build and start containers:**
+
+   ```bash
+   docker compose up --build
+   ```
+
+   - This will build the NestJS app and start it in a container.
+   - The app will be accessible at `http://localhost:3000/docs`.
+
+2. **Environment Variables:**
+   - You can override environment variables by editing the `.env` file or passing them via `docker-compose.yml`.
+
+3. **Stopping containers:**
+   ```bash
+   docker compose down
+   ```
+
+---
+
+## Seeded Data
+
+On startup, the application automatically seeds the following data for quick interaction with the api.
+
+- **Admin:**
+  - admin@autocheck.com / password123
+- **Dealer:**
+  - dealer@autocheck.com / password123
+- **Customer:**
+  - customer@autocheck.com / password123
+- **Vehicles:**
+  - Five demo vehicles belonging to the seeded dealer are created automatically, each with:  
+    • available = true.  
+    • Distinct VINs.  
+    • Linked to the dealer.  
+    and the first vehicle has a valid VIN that can fetch a valid valuation response from RAPIDAPI.
+
+---
+
+## Testing
+
+This project includes unit and integration tests powered by Jest.
+
+- **Run all tests:**
+
+  ```bash
+  npm run test
+  ```
+
+- **Test coverage:**
+
+  ```bash
+  npm run test:cov
+  ```
+
+  **Example Tests Included:**
+  - Offer Acceptance → Loan Approval → Vehicle Unavailability.  
+    • Ensures accepting an offer updates:  
+    • Offer status → ACCEPTED.  
+    • Loan status → APPROVED.  
+    • Vehicle availability → false.
+  - Valuation Request.  
+    • Tests both external API call and fallback valuation logic.
+
+---
+
+## Architecture Highlights
+
+- Global HTTP Module: Enables centralized HTTP service injection for external API calls.
+- Dependency Injection: All modules follow NestJS DI patterns for easy testing and extensibility.
+- Error Handling: Consistent use of NestJS HttpException subclasses (NotFoundException, ForbiddenException, etc.).
+- DTO Validation: Ensures all inputs are validated using class-validator and class-transformer.
+- Logger Integration: Provides detailed logs for service interactions and failures.
+
+---
+
+## 🚀 Future Improvements
+
+- Integrate PostgreSQL for production-grade persistence.
+- Implement rate-limiting and caching for external valuation API calls.
+- Implement a robust, business-oriented loan eligibilty scoring for customers.
+- Implement a centralized audit log module to track key activities in the system.
+
+## Contact & Support
+
+For questions, issues, or contributions, please open an issue on the [GitHub repository](https://github.com/Timothy-py/Autochek).
+
+---
